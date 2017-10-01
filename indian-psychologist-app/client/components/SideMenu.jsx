@@ -18,7 +18,6 @@ export default class SideMenu extends React.Component {
 			isOpen: false,
 			contentComponent: <Search navigator={this.props.navigator}/>,
 			contentTitle: 'Search',
-
 		}
 	}
 

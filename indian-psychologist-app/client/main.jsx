@@ -9,6 +9,8 @@ import 'onsenui/css/onsen-css-components.css';
 
 import Navigator from './components/Navigator.jsx';
 
+ONS = ons;
+
 Meteor.startup(() => {
 	initTuktuk();
 	render(<Navigator />, document.getElementById('render-target'));

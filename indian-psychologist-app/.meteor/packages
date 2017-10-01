@@ -23,10 +23,12 @@ insecure@1.0.7                # Allow all DB writes from clients (for prototypin
 msavin:mongol
 react-meteor-data
 random
+session
 
 accounts-ui
 accounts-password
 accounts-facebook
 facebook-config-ui
+service-configuration
 useraccounts:core
 useraccounts:unstyled

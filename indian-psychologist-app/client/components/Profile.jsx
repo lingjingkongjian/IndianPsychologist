@@ -10,40 +10,7 @@ import * as Ons from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
-
-class AccountsUIWrapper extends React.Component {
-  componentDidMount() {
-    this.view = Blaze.render(Template.loginButtons,
-      ReactDOM.findDOMNode(this.refs.container));
-  }
-  componentWillUnmount() {
-    Blaze.remove(this.view);
-  }
-  render() {
-    return <span ref="container" />;
-  }
-}
-
-class FacebookLogin extends React.Component {
-
-  loginWithFacebook() {
-    Meteor.loginWithFacebook({
-      requestPermissions: ['email']
-    }, (err) => {
-      if (err) {
-        // handle error
-      } else {
-        // successful login!
-      }
-    });
-  }
-
-  render() {
-    return (
-      <Ons.Button onClick={this.loginWithFacebook.bind(this)}> Login With Facebook </Ons.Button>
-    ); 
-  }
-}
+import Welcome from './Welcome.jsx';
 
 class Avatar extends React.Component {
   onEditAvatar() {
@@ -67,20 +34,16 @@ class Avatar extends React.Component {
 class Profile extends React.Component {
   logout() {
     Meteor.logout();
+    Session.set({'welcomeScreenShowed': true});
+    this.props.navigator.pushPage({component: Welcome}, {animation: 'lift'});
   }
 	render() {
-    if(this.props.user) {
-      var logoutButton = <Ons.Button onClick={this.logout.bind(this)}> Logout </Ons.Button>
-    } else {
-      var loginButton = <FacebookLogin />
-    }
 		return (
       <Ons.Page contentStyle={{padding: 20}}>
         <Ons.Card contentStyle={{textAlign: 'center'}}>
           <Avatar user={this.props.user} />
           <h2>{this.props.user.profile.name}</h2>
-          {logoutButton}
-          {loginButton}
+          <Ons.Button onClick={this.logout.bind(this)}> Logout </Ons.Button>
         </Ons.Card>
       </Ons.Page>
 		);

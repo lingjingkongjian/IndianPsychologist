@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Session } from 'meteor/session'
 import React from 'react';
 
 import ons from 'onsenui';
@@ -18,7 +19,19 @@ class Search extends React.Component {
 		this.state = {
 			'searchInput': '',
 		}
+	}
 
+	componentDidMount() {
+		// check if we have to show hello screen
+		console.log('checking....');
+		var that = this;
+		if(!Session.get('welcomeScreenShowed')){
+			setTimeout(function(){
+				if(that.props.user) return;
+				Session.set({'welcomeScreenShowed': true});
+				that.props.navigator.pushPage({component: Welcome}, {animation: 'lift'});
+			}, 2000)
+		}
 	}
 
 	onSelectDoctor(doctor) {
