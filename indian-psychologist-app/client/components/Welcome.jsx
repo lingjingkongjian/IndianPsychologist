@@ -15,7 +15,7 @@ class FacebookLogin extends React.Component {
 				requestPermissions: ['email']
 			}, (err) => {
 			if (err) {
-				// handle error
+				console.log(err)
 			} else {
 				ons.notification.toast('Logged in successfully', {timeout: 2000});
 				Session.set({'welcomeScreenShowed': false});

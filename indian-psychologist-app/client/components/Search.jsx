@@ -23,7 +23,6 @@ class Search extends React.Component {
 
 	componentDidMount() {
 		// check if we have to show hello screen
-		console.log('checking....');
 		var that = this;
 		if(!Session.get('welcomeScreenShowed')){
 			setTimeout(function(){

@@ -13,22 +13,38 @@ import 'onsenui/css/onsen-css-components.css';
 import Welcome from './Welcome.jsx';
 
 class Avatar extends React.Component {
+
   onEditAvatar() {
-    console.log('oi')
+    var that = this;
+    MeteorCamera.getPicture(function(error, data) {
+      if(error) console.log(error);
+      var options = {
+        apiKey: 'a6e3380b07014ef',
+        image: data
+      };
+      Imgur.upload(options, function(error, data){
+        if(error) console.log(error);
+        console.log(data);
+        that.setState({'imageData': data})
+        Users.update({'_id': Meteor.userId()}, {$set: {'profile.avatar': data.link}})
+      })
+    });
   }
+
   render() {
     if(!this.props.user.profile.avatar) {
       var avatar = <Ons.Icon size={200} icon="ion-person" />;
     } else {
-      var avatar = <img src={this.props.user.profile.public.avatar} alt=""/>
+      var avatar = <img style={{maxHeight: 150}} src={this.props.user.profile.avatar} alt=""/>
     }
     return (
       <div style={{textAlign: 'center'}}>
         {avatar} <br />
-        <Ons.Button onClick={this.onEditAvatar.bind(this)}> Edit Avatar </Ons.Button>
+        <Ons.Button modifier="quiet" onClick={this.onEditAvatar.bind(this)}> Edit Avatar </Ons.Button>
       </div>
     );
   }
+
 }
 
 class Profile extends React.Component {

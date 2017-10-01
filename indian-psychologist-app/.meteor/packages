@@ -24,6 +24,8 @@ msavin:mongol
 react-meteor-data
 random
 session
+mdg:camera
+simple:imgur
 
 accounts-ui
 accounts-password

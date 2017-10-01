@@ -12,7 +12,7 @@ function doUserFixtures(){
 				'avatar': 'https://i.imgur.com/aybWVmc.png',
 				'age': 52,
 				'specialities': ['General Health', 'Depression', 'Feel Good Lessions'],
-				'additionalInfo': 'I am the best doctor ever...',
+				'additionalInfo': 'I am the best doctor ever...'
 			}
 		},
 		{
@@ -24,7 +24,7 @@ function doUserFixtures(){
 				'avatar': 'https://i.imgur.com/8n9gXqY.jpg', 
 				'age': 28,
 				'specialities': ['Brain Care', 'Mood Enhancer Therapy'],
-				'additionalInfo': 'Your Brains are in good hands with me',
+				'additionalInfo': 'Your Brains are in good hands with me'
 			}
 		},
 	];
