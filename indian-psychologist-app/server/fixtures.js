@@ -4,10 +4,10 @@ function doUserFixtures(){
 	console.log('doing user fixtures');
 	var users = [
 		{
-			'username': 'Bertha',
 			'email': 'bertha@doctor.com',
 			'password': 'bertha',
 			'profile': {
+				'name': 'Bertha',
 				'isDoctor': true,
 				'avatar': 'https://i.imgur.com/aybWVmc.png',
 				'age': 52,
@@ -16,10 +16,10 @@ function doUserFixtures(){
 			}
 		},
 		{
-			'username': 'Wilhelm',
 			'email': 'wilhelm@doctor.com',
 			'password': 'wilhelm',
 			'profile': {
+				'name': 'Wilhelm',
 				'isDoctor': true,
 				'avatar': 'https://i.imgur.com/8n9gXqY.jpg', 
 				'age': 28,

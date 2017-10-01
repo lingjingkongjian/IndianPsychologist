@@ -44,14 +44,20 @@ class Search extends React.Component {
 	}
 
 	render() {
+		var that = this;
+		var doctorsList = this.props.doctors.filter(function(doctor) {
+			if(doctor.profile.name.indexOf(that.state.searchInput) > -1) return true;
+			if(doctor.profile.additionalInfo.indexOf(that.state.searchInput) > -1) return true;
+			return false;
+		});
 
-		var doctorsList = this.props.doctors.map(doctor => {
+		doctorsList = doctorsList.map(doctor => {
 			return (
 				<Ons.ListItem key={doctor._id} tappable onClick={() => {this.onSelectDoctor(doctor)}}>
 					<div className='left'>
 						<img src={doctor.profile.avatar} className='list-item__thumbnail' />
 					</div>
-			        <span className="list-item__title">{doctor.username}, {doctor.profile.age}</span>
+			        <span className="list-item__title">{doctor.profile.name}, {doctor.profile.age}</span>
 			        <span className="list-item__subtitle"> {doctor.profile.additionalInfo}</span>
 				</Ons.ListItem>
 			);
