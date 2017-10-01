@@ -7,6 +7,10 @@ import * as Ons from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
+import Welcome from './Welcome.jsx';
+import DoctorDetails from './DoctorDetails.jsx';
+
+
 class Search extends React.Component {
 
 	constructor(props) {
@@ -14,17 +18,28 @@ class Search extends React.Component {
 		this.state = {
 			'searchInput': '',
 		}
+
+	}
+
+	onSelectDoctor(doctor) {
+		this.props.navigator.pushPage({
+			'component': DoctorDetails,
+			'props': {
+				doctor: doctor
+			}
+		}, {animation: 'slide'});
 	}
 
 	render() {
+
 		var doctorsList = this.props.doctors.map(doctor => {
 			return (
-				<Ons.ListItem key={doctor._id} tappable>
+				<Ons.ListItem key={doctor._id} tappable onClick={() => {this.onSelectDoctor(doctor)}}>
 					<div className='left'>
-						<img src={doctor.profile.public.avatar} className='list-item__thumbnail' />
+						<img src={doctor.profile.avatar} className='list-item__thumbnail' />
 					</div>
-			        <span className="list-item__title">{doctor.username}, {doctor.profile.public.age}</span>
-			        <span className="list-item__subtitle"> {doctor.profile.public.additionalInfo}</span>
+			        <span className="list-item__title">{doctor.username}, {doctor.profile.age}</span>
+			        <span className="list-item__subtitle"> {doctor.profile.additionalInfo}</span>
 				</Ons.ListItem>
 			);
 		});
@@ -47,6 +62,7 @@ class Search extends React.Component {
 
 export default createContainer(() => {
 	return {
-		doctors: Users.find({'profile.public.isDoctor': true}).fetch(),
+		doctors: Users.find({'profile.isDoctor': true}).fetch(),
+		user: Meteor.user()
 	};
 }, Search);

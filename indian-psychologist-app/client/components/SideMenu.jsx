@@ -9,13 +9,14 @@ import 'onsenui/css/onsen-css-components.css';
 import Search from './Search.jsx';
 import Profile from './Profile.jsx';
 import Appointments from './Appointments.jsx';
+import Diagnoses from './Diagnoses.jsx';
 
 export default class SideMenu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isOpen: false,
-			contentComponent: <Search />,
+			contentComponent: <Search navigator={this.props.navigator}/>,
 			contentTitle: 'Search',
 
 		}
@@ -51,15 +52,19 @@ export default class SideMenu extends React.Component {
 		var sideMenuEntries = [
 			{
 				title: 'Search',
-				component: <Search />
+				component: <Search navigator={this.props.navigator}/>
 			},
 			{
 				title: 'Appointments',
-				component: <Appointments />
+				component: <Appointments navigator={this.props.navigator}/>
+			},
+			{
+				title: 'Diagnoses',
+				component: <Diagnoses navigator={this.props.navigator}/>
 			},
 			{
 				title: 'Profile',
-				component: <Profile />
+				component: <Profile navigator={this.props.navigator}/>
 			},
 		];
 
@@ -88,32 +93,34 @@ export default class SideMenu extends React.Component {
 		}
 
 		return (
-			<Ons.Splitter>
-		        <Ons.SplitterSide
-					style={{
-						boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
-					}}
-					side='left'
-					width={250}
-					collapse={true}
-					swipeable={true}
-					isOpen={this.state.isOpen}
-					onClose={this.hide.bind(this)}
-					onOpen={this.show.bind(this)}
-		        >
-		          <Ons.Page>
-		            <Ons.List>
-		            	{sideMenuListItems}
-		            </Ons.List>
-		          </Ons.Page>
-		        </Ons.SplitterSide>
-				<Ons.SplitterContent>
-					<Ons.Page renderToolbar={this.renderToolbar.bind(this)}>
-						{this.state.contentComponent}
-					</Ons.Page>
-		        </Ons.SplitterContent>
+			<Ons.Page>
+				<Ons.Splitter>
+			        <Ons.SplitterSide
+						style={{
+							boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
+						}}
+						side='left'
+						width={250}
+						collapse={true}
+						swipeable={true}
+						isOpen={this.state.isOpen}
+						onClose={this.hide.bind(this)}
+						onOpen={this.show.bind(this)}
+			        >
+			          <Ons.Page>
+			            <Ons.List>
+			            	{sideMenuListItems}
+			            </Ons.List>
+			          </Ons.Page>
+			        </Ons.SplitterSide>
+					<Ons.SplitterContent>
+						<Ons.Page renderToolbar={this.renderToolbar.bind(this)}>
+							{this.state.contentComponent}
+						</Ons.Page>
+			        </Ons.SplitterContent>
 
-			</Ons.Splitter>
+				</Ons.Splitter>
+			</Ons.Page>
 		);
 	}
 }
