@@ -17,7 +17,7 @@ class Search extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			'searchInput': '',
+			'searchInput': ''
 		}
 	}
 
@@ -42,6 +42,23 @@ class Search extends React.Component {
 		}, {animation: 'slide'});
 	}
 
+	renderSearchBar() {
+		var classes = 'search-input';
+		if(ons.platform.isAndroid()) classes += ' search-input--material'
+		return (
+			<p style={{paddingLeft: 10, paddingRight: 10}}>
+				<input 
+					type="search" 
+					value={this.state.searchInput}
+					placeholder="Search" 
+					className={classes}
+					style={{ width: '100%'}} 
+					onChange={(e) => {this.setState({searchInput: e.target.value})}}
+				/>
+			</p>
+		);
+	}
+
 	render() {
 		var that = this;
 		var doctorsList = this.props.doctors.filter(function(doctor) {
@@ -63,14 +80,9 @@ class Search extends React.Component {
 		});
 		return (
 			<Ons.Page>
-				<p style={{paddingLeft: 10, paddingRight: 10}}>
-					<Ons.SearchInput
-						style={{width: '100%'}}
-						placeholder='Search' 
-						onChange={(e) => {this.setState({searchInput: e.target.value})}}
-					/>
-				</p>
+
 				<Ons.List>
+					{this.renderSearchBar()}
 					{doctorsList}
 				</Ons.List>
 			</Ons.Page>
