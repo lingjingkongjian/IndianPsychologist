@@ -1,11 +1,31 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import ons from 'onsenui';
 import * as Ons from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
+
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
+
+class AccountsUIWrapper extends React.Component {
+  componentDidMount() {
+    // Use Meteor Blaze to render login buttons
+    this.view = Blaze.render(Template.loginButtons,
+      ReactDOM.findDOMNode(this.refs.container));
+  }
+  componentWillUnmount() {
+    // Clean up Blaze view
+    Blaze.remove(this.view);
+  }
+  render() {
+    // Just render a placeholder container that will be filled in
+    return <span ref="container" />;
+  }
+}
 
 class FacebookLogin extends React.Component {
 
@@ -26,7 +46,7 @@ class FacebookLogin extends React.Component {
 
 	render() {
 		return (
-			<Ons.Button onClick={this.loginWithFacebook.bind(this)}> Login With Facebook </Ons.Button>
+			<Ons.Button modifier="large" onClick={this.loginWithFacebook.bind(this)}> Login With Facebook </Ons.Button>
 		); 
 	}
 }
@@ -35,16 +55,16 @@ class FacebookLogin extends React.Component {
 class Welcome extends React.Component {
 	render() {
 		return (
-			<Ons.Page>
-				<div style={{textAlign: 'center'}}>
+			<Ons.Page contentStyle={{padding: 20}}>
 					<br />
 					<br />
-					<h2>Welcome to the Indian Doctor App </h2>
-					<p> lorem ipsum sit dolor amet... </p>
-					<br />
+					<h2 style={{textAlign: 'center'}}>Welcome. </h2>
 					<br />
 					<FacebookLogin navigator={this.props.navigator} />
-				</div>
+					<br />
+					<br />
+					<p> Login via Email </p>
+					<AccountsUIWrapper />
 			</Ons.Page>
 		);
 	}

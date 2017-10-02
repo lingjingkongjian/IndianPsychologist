@@ -1,8 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Template } from 'meteor/templating';
-import { Blaze } from 'meteor/blaze';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ons from 'onsenui';

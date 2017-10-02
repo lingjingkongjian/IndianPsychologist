@@ -42,7 +42,14 @@ export default class DoctorDetails extends React.Component {
 	}
 
 	onPressBookDoctor() {
-
+		var appointment = {
+			'userId': Meteor.userId(),
+			'doctorId': this.props.doctor._id,
+			'createdAt': new Date(),
+		};
+		AppointmentsCollection.insert(appointment);
+		ONS.notification.toast('Appointment booked!', {timeout: 2000});
+		this.props.navigator.popPage();
 	}
 
 	render() {
@@ -68,7 +75,7 @@ export default class DoctorDetails extends React.Component {
 							</p>
 							</div>
 					</Ons.Card>
-					<Ons.Button modifier="large">Book Doctor</Ons.Button>
+					<Ons.Button modifier="large" onClick={this.onPressBookDoctor.bind(this)}>Book Doctor</Ons.Button>
 			</Ons.Page>
 		);	
 	}
