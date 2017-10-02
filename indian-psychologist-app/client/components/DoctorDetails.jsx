@@ -30,7 +30,7 @@ export default class DoctorDetails extends React.Component {
 	}
 
 	renderSpecialities() {
-		var specialitiesList = this.props.doctor.profile.specialities.map(speciality => <li><b>{speciality}</b></li>);
+		var specialitiesList = this.props.doctor.profile.specialities.map(speciality => <li key={speciality}><b>{speciality}</b></li>);
 		return (
 			<div>
 				Specialities: 
