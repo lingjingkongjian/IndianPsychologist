@@ -63,8 +63,6 @@ class Welcome extends React.Component {
 					<FacebookLogin navigator={this.props.navigator} />
 					<br />
 					<br />
-					<p> Login via Email </p>
-					<AccountsUIWrapper />
 			</Ons.Page>
 		);
 	}
