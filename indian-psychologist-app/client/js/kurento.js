@@ -22,7 +22,7 @@ var kurentoUtils = require('kurento-utils');
 
 var host = "storewarp.com"; //location.host
 
-var ws = new WebSocket('wss://' + host + '/one2one');
+var ws = new WebSocket('wss://' + location.host + '/one2one');
 var videoInput;
 var videoOutput;
 var webRtcPeer;

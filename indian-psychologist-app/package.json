@@ -17,9 +17,9 @@
     "kurento-utils": "^6.6.3",
     "meteor-node-stubs": "~0.2.4",
     "onsenui": "^2.7.1",
-    "react": "^15.6.1",
+    "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.0",
-    "react-dom": "^15.6.1",
+    "react-dom": "^15.6.2",
     "react-onsenui": "^1.8.0"
   },
   "devDependencies": {
