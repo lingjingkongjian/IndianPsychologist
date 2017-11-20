@@ -9,18 +9,19 @@
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
     "bootstrap": "^3.3.7",
-    "draggabilly": "1.2.4",
+    "draggabilly": "^1.2.4",
     "ekko-lightbox": "^5.3.0",
     "grunt": "^1.0.1",
     "jquery": "^3.2.1",
     "kurento-client": "^6.6.0",
     "kurento-utils": "^6.6.3",
-    "meteor-node-stubs": "~0.2.4",
-    "onsenui": "^2.7.1",
+    "meteor-node-stubs": "^0.2.11",
+    "onsenui": "^2.8.1",
     "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.0",
     "react-dom": "^15.6.2",
-    "react-onsenui": "^1.8.0"
+    "react-hot-loader": "^3.1.3",
+    "react-onsenui": "^1.9.0"
   },
   "devDependencies": {
     "onsenui": "^2.5.3",

@@ -35,3 +35,11 @@ service-configuration
 useraccounts:core
 useraccounts:unstyled
 mizzao:user-status
+yogiben:admin
+iron:router
+dburles:collection-helpers
+aldeed:collection2
+twbs:bootstrap
+fortawesome:fontawesome
+accounts-base
+alanning:roles
