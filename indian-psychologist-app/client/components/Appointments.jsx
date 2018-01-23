@@ -1,24 +1,42 @@
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
+
 import React from 'react';
 
-import ons from 'onsenui';
 import * as Ons from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
-require('./../js/kurento.js');
 import './Appointments.css';
+
+var divStyle = {
+    width: "100%",
+	height: "calc(100% - 100px)",
+	position: "absolute",
+	top: "0px",
+	left: "0px",
+    border: "0px",
+	};
+
+var divStyle2 = {
+    position: "absolute",
+    bottom: "30px",
+    left: 0,
+    right: 0,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "80px",
+}
+
 
 class Appointments extends React.Component {
 
     constructor(props: any){
         super(props);
-        this.state = { isOpen: false };
+        this.state = { isOpen: false, activeAppointment: null };
     }
 
     componentDidMount(){
-        prepareKurento();
     }
 
 
@@ -31,75 +49,52 @@ class Appointments extends React.Component {
 		return status;
 	}
 
-	onCall() {
-        this.setState({isOpen: true});
+	onClose(){
+        this.setState({isOpen: false, videochat_src: "https://jonathanlehner.com/room/"});
+	}
+
+	onCall(id, element) {
+		console.log(element);
+		console.log(id);
+        this.setState({isOpen: true, activeAppointment: id, videochat_src: "https://jonathanlehner.com/room/"+id});
 	}
 
 	render() {
-		var appointments = this.props.appointments.map(a => { return (
-			<Ons.ListItem key={a._id} tappable onClick={this.onCall.bind(this)}>
-				<span className="list-item__title">Appointment with {a.doctor.profile.name}</span>
-				<span className="list-item__subtitle"> {this.renderStatus(a)} - call now</span>
-			</Ons.ListItem>
-		)});
+		var appointments = this.props.appointments_list.map(a => {
+			console.log(a);
+			if(a.doctor !== undefined){
+				return (
+				<Ons.ListItem key={a._id} tappable onClick={this.onCall.bind(this, a._id)}>
+					<span className="list-item__title">Appointment with {a.doctor.profile.name}</span>
+					<span className="list-item__subtitle"> {this.renderStatus(a)} - call now</span>
+				</Ons.ListItem>);
+			}
+		});
 		return (
 			<Ons.Page
 				renderModal={() => (
 					<Ons.Modal isOpen={this.state.isOpen}>
-                        <div>
-                            <div id="videoBig">
-                                <video id="videoOutput" poster="img/webrtc.png"></video>
-                            </div>
-                            <div id="videoSmall">
-                                <video id="videoInput" width="240px" height="180px" poster="img/webrtc.png"></video>
-                            </div>
-                        </div>
-                        <p>
-                            <Ons.Button onClick={() => this.setState({isOpen: false})}>
-                                Close
-                            </Ons.Button>
-                        </p>
+						<iframe id="videochat_iframe" style={divStyle} src={this.state.videochat_src} scrolling="no"></iframe>
+						<Ons.Button style={divStyle2} onClick={this.onClose.bind(this)}>
+                            Close
+                        </Ons.Button>
 					</Ons.Modal>
 				)}>
 				<Ons.List>
 					{appointments}
 				</Ons.List>
-                <div className="col-md-5">
-                    <label className="control-label" htmlFor="name">Name</label>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <input id="name" name="name" className="htmlForm-control" type="text"></input>
-                        </div>
-                        <div className="col-md-6 text-right">
-                            <a id="register" href="#" className="btn btn-primary">
-                                <span className="glyphicon glyphicon-plus"></span> Register</a>
-                        </div>
-                    </div>
-                    <label className="control-label" htmlFor="peer">Peer</label>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <input id="peer" name="peer" className="htmlForm-control" type="text"></input>
-                        </div>
-                        <div className="col-md-6 text-right">
-                            <a id="call" href="#" className="btn btn-success" disabled="disabled">
-                                <span className="glyphicon glyphicon-play"></span> Call</a>
-                            <a id="terminate" href="#" className="btn btn-danger" disabled="disabled">
-                                <span className="glyphicon glyphicon-stop"></span> Stop</a>
-                        </div>
-                    </div>
-                    <label className="control-label" htmlFor="console">Console</label>
-                    <div id="console" className="democonsole">
-                        <ul></ul>
-                    </div>
-                </div>
 			</Ons.Page>
 		);
 	}
 }
 
+export default AppointmentsContainer = withTracker(props => {
+    //var users = Users.find().fetch();
 
-export default createContainer(() => {
-  return {
-    appointments: AppointmentsCollection.find({'userId': Meteor.userId()}).fetch()
-  };
-}, Appointments);
+    const appointments_handle = Meteor.subscribe('appointments');
+    return {
+        currentUser: Meteor.user(),
+        listLoading: !appointments_handle.ready(),
+        appointments_list: AppointmentsCollection.find().fetch(), ///listExists is broken somehow? appointments?
+    };
+})(Appointments);

@@ -1,0 +1,25 @@
+{
+  "short_name": "Outreach Psychology",
+  "name": "Outreach Psychology",
+  "icons": [
+    {
+      "src": "ic_launcher/res/mipmap-mdpi/ic_launcher.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "ic_launcher/res/mipmap-xhdpi/ic_launcher.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "ic_launcher/res/mipmap-xxxhdpi/ic_launcher.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "index.html?launcher=true",
+  "background_color": "#2196F3",
+  "theme_color": "#2196F3",
+  "display": "standalone"
+}

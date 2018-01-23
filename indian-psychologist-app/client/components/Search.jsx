@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session'
 import React from 'react';
 
@@ -8,9 +8,8 @@ import * as Ons from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
-import Welcome from './Welcome.jsx';
+import WelcomeContainer from './Welcome.jsx';
 import DoctorDetails from './DoctorDetails.jsx';
-
 
 class Search extends React.Component {
 
@@ -23,13 +22,17 @@ class Search extends React.Component {
 
 	componentDidMount() {
 		// check if we have to show hello screen
-		var that = this;
-		if(!Session.get('welcomeScreenShowed')){
+        that = this;
+        var myNavigator = document.querySelector('ons-navigator');
+
+        if(!Session.get('welcomeScreenShowed')){
+            //alert("opening welcome screen");
 			setTimeout(function(){
 				if(that.props.user) return;
 				Session.set({'welcomeScreenShowed': true});
-				that.props.navigator.pushPage({component: Welcome}, {animation: 'lift'});
-			}, 2000)
+				that.props.navigator.pushPage({component: WelcomeContainer}, {animation: 'simpleslide'},
+                    {props: {navigator: myNavigator}});
+			}, 300)
 		}
 	}
 
@@ -46,7 +49,7 @@ class Search extends React.Component {
 		var classes = 'search-input';
 		if(ons.platform.isAndroid()) classes += ' search-input--material'
 		return (
-			<p style={{paddingLeft: 10, paddingRight: 10}}>
+			<p style={{paddingLeft: 10, paddingRight: 10, paddingTop: 10,}}>
 				<input 
 					type="search" 
 					value={this.state.searchInput}
@@ -90,9 +93,9 @@ class Search extends React.Component {
 	}
 }
 
-export default createContainer(() => {
-	return {
-		doctors: Users.find({'profile.isDoctor': true}).fetch(),
-		user: Meteor.user()
-	};
-}, Search);
+export default SearchContainer = withTracker(props => {
+    return {
+        doctors: Users.find({'profile.isDoctor': true}).fetch(),
+        user: Meteor.user()
+    };
+})(Search);

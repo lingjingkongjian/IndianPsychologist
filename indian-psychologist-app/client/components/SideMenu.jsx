@@ -6,17 +6,17 @@ import * as Ons from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
-import Search from './Search.jsx';
-import Profile from './Profile.jsx';
-import Appointments from './Appointments.jsx';
-import Diagnoses from './Diagnoses.jsx';
+import SearchContainer from './Search.jsx';
+import ProfileContainer from './Profile.jsx';
+import AppointmentsContainer from './Appointments.jsx';
+import DiagnosesContainer from './Diagnoses.jsx';
 
 export default class SideMenu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isOpen: false,
-			contentComponent: <Search navigator={this.props.navigator}/>,
+			contentComponent: <SearchContainer navigator={this.props.navigator}/>,
 			contentTitle: 'Search',
 		}
 	}
@@ -51,19 +51,19 @@ export default class SideMenu extends React.Component {
 		var sideMenuEntries = [
 			{
 				title: 'Search',
-				component: <Search navigator={this.props.navigator}/>
+				component: <SearchContainer navigator={this.props.navigator}/>
 			},
 			{
 				title: 'Appointments',
-				component: <Appointments navigator={this.props.navigator}/>
+				component: <AppointmentsContainer navigator={this.props.navigator}/>
 			},
 			{
 				title: 'Diagnoses',
-				component: <Diagnoses navigator={this.props.navigator}/>
+				component: <DiagnosesContainer navigator={this.props.navigator}/>
 			},
 			{
 				title: 'Profile',
-				component: <Profile navigator={this.props.navigator}/>
+				component: <ProfileContainer navigator={this.props.navigator}/>
 			},
 		];
 
@@ -84,11 +84,11 @@ export default class SideMenu extends React.Component {
 		)});
 		
 		if(this.state.selectedMenuPoint === 'Search') {
-			var content = <Search />;
+			var content = <SearchContainer navigator={this.props.navigator}/>;
 		} else if (this.state.selectedMenuPoint === 'Appointments') {
-			var content = <Search />;
+			var content = <SearchContainer navigator={this.props.navigator}/>;
 		} else if (this.state.selectedMenuPoint === 'Profile') {
-			var content = <Profile />;
+			var content = <ProfileContainer navigator={this.props.navigator}/>;
 		}
 
 		return (
