@@ -14,7 +14,7 @@ class Avatar extends React.Component {
 
   onEditAvatar() {
     var that = this;
-    MeteorCamera.getPicture({width: 400, height: 400, quality:100}, function(error, data) {
+    MeteorCameraUI.getPicture({width: 400, height: 400, quality:100}, function(error, data) {
       if(error) console.log(error);
       var options = {
         apiKey: 'a6e3380b07014ef',
@@ -51,25 +51,33 @@ class Profile extends React.Component {
         this.state = {
             name: this.props.user.profile.name,
             age: this.props.user.profile.age,
-            location: this.props.user.profile.location
+            location: this.props.user.profile.location,
+            isDoctor: this.props.user.profile.isDoctor,
+            specialities: this.props.user.profile.specialities,
+            additionalInfo: this.props.user.profile.additionalInfo,
+
         };
 
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
-        var newstate = this.state;
-        newstate[event.target.name] = event.target.value;
-        this.setState(newstate);
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
     }
 
     logout() {
         Meteor.logout();
         //alert("opening welcome screen");
-        setTimeout(function(){
+        /*setTimeout(function(){
             Session.set({'welcomeScreenShowed': true});
             that.props.navigator.pushPage({component: WelcomeContainer}, {animation: 'simpleslide'});
-        }, 300);
+        }, 300);*/
     }
 
     saveProfile() {
@@ -79,6 +87,9 @@ class Profile extends React.Component {
                     "profile.name": this.state.name,
                     "profile.age": this.state.age,
                     "profile.location": this.state.location,
+                    "profile.isDoctor": this.state.isDoctor,
+                    "profile.specialities": this.state.specialities,
+                    "profile.additionalInfo": this.state.additionalInfo,
                 }
             });
     }
@@ -103,6 +114,30 @@ class Profile extends React.Component {
                             <td><label>Location</label></td>
                             <td><input type="text" name="location" value={this.state.location} onChange={this.handleChange.bind()} /><br/></td>
                         </tr>
+                        <tr>
+                            <td><label>is doctor</label></td>
+                            <td><input type="checkbox" name="isDoctor" checked={this.state.isDoctor} onChange={this.handleChange.bind()} /><br/></td>
+                        </tr>
+                        {(() => {
+                            if (this.state.isDoctor) {
+                                return (
+                                    <tr>
+                                        <td><label>Specialties</label></td>
+                                        <td><input type="text" name="specialities" value={this.state.specialities} onChange={this.handleChange.bind()} /><br/></td>
+                                    </tr>
+                                    )
+                            }
+                        })()}
+                        {(() => {
+                            if (this.state.isDoctor) {
+                                return (
+                                    <tr>
+                                        <td><label>Additional Information</label></td>
+                                        <td><input type="text" name="additionalInfo" value={this.state.additionalInfo} onChange={this.handleChange.bind()} /><br/></td>
+                                    </tr>
+                                )
+                            }
+                        })()}
                     </tbody>
                 </table>
             </form><br/>

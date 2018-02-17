@@ -1,1 +1,12 @@
 /* CSS declarations go here */
+.react-datepicker__input-container{
+    padding: 5px;
+}
+
+.react-datepicker__input-container input {
+    width: 200px;
+}
+
+.react-datepicker__time-list{
+    padding: 0 !important;
+}

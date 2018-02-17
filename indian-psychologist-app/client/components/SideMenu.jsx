@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import ons from 'onsenui';
 import * as Ons from 'react-onsenui';
@@ -10,16 +11,42 @@ import SearchContainer from './Search.jsx';
 import ProfileContainer from './Profile.jsx';
 import AppointmentsContainer from './Appointments.jsx';
 import DiagnosesContainer from './Diagnoses.jsx';
+import WriteSummary from './WriteSummary';
 
-export default class SideMenu extends React.Component {
+export class SideMenu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isOpen: false,
 			contentComponent: <SearchContainer navigator={this.props.navigator}/>,
 			contentTitle: 'Search',
+			navigator: document.querySelector('ons-navigator'),
 		}
+		this.resetContentComponent = this.resetContentComponent.bind(this);
 	}
+
+	resetContentComponent(){
+		//alert("reset");
+		this.setState({contentComponent: <SearchContainer navigator={this.props.navigator}/>});
+	}
+
+    componentDidMount() {
+        // check if we have to show hello scre£en
+        //that = this;
+        //var myNavigator = document.querySelector('ons-navigator');
+
+        /*console.log(Meteor.user());
+        if(Meteor.user() == null){ //
+			console.log("???");
+            //alert("opening welcome screen");
+            setTimeout(function(){
+                if(that.props.user) return;
+                //Session.set({'welcomeScreenShowed': true});
+                that.props.navigator.pushPage({component: WelcomeContainer}, {animation: 'simpleslide'},
+                    {props: {navigator: myNavigator}});
+            }, 300)
+        }*/
+    }
 
 	hide() {
 		this.setState({isOpen: false});
@@ -93,30 +120,47 @@ export default class SideMenu extends React.Component {
 
 		return (
 			<Ons.Page>
-				<Ons.Splitter>
-			        <Ons.SplitterSide
-						side='left'
-						width={250}
-						collapse={true}
-						swipeable={true}
-						isOpen={this.state.isOpen}
-						onClose={this.hide.bind(this)}
-						onOpen={this.show.bind(this)}
-			        >
-			          <Ons.Page>
-			            <Ons.List>
-			            	{sideMenuListItems}
-			            </Ons.List>
-			          </Ons.Page>
-			        </Ons.SplitterSide>
-					<Ons.SplitterContent>
-						<Ons.Page renderToolbar={this.renderToolbar.bind(this)}>
-							{this.state.contentComponent}
-						</Ons.Page>
-			        </Ons.SplitterContent>
+                {(() => {
+                    if (this.props.user == null) {
+                        return (
+							<WelcomeContainer navigator={this.state.navigator} reset={this.resetContentComponent}></WelcomeContainer>
+                        )
+                    }
+                    else {
+                    	return (
+							<Ons.Splitter>
+								<Ons.SplitterSide
+									side='left'
+									width={250}
+									collapse={true}
+									swipeable={true}
+									isOpen={this.state.isOpen}
+									onClose={this.hide.bind(this)}
+									onOpen={this.show.bind(this)}
+								>
+									<Ons.Page>
+										<Ons.List>
+                                            {sideMenuListItems}
+										</Ons.List>
+									</Ons.Page>
+								</Ons.SplitterSide>
+								<Ons.SplitterContent>
+									<Ons.Page renderToolbar={this.renderToolbar.bind(this)}>
+                                        {this.state.contentComponent}
+									</Ons.Page>
+								</Ons.SplitterContent>
 
-				</Ons.Splitter>
+							</Ons.Splitter>
+						)
+					}
+                })()}
 			</Ons.Page>
 		);
 	}
 }
+
+export default SideMenuContainer = withTracker(props => {
+    return {
+        user: Meteor.user()
+    };
+})(SideMenu);

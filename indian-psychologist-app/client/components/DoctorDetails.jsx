@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import ons from 'onsenui';
 import * as Ons from 'react-onsenui';
@@ -7,6 +9,48 @@ import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
 export default class DoctorDetails extends React.Component {
+
+    constructor(props) {
+        super(props);
+        var date = moment().add(3, 'days');
+        var minute = 30 * Math.round(date.minutes() / 30);
+        date = date.minutes(minute);
+        date = date.seconds(0);
+        this.state = {
+            date: date,
+            excluded: []
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(date) {
+        var excluded = [];
+        const appointments_list = AppointmentsCollection.find({ doctorId: this.props.doctor._id }).fetch();
+        appointments_list.map(appointment => {
+            var appointment_date = moment(appointment.date, "ddd, MMMM Do YYYY, HH:mm:ss A");
+            console.log(date);
+            console.log(appointment_date);
+            if(date.isSame(appointment_date, 'day')) {
+                h = appointment_date.hours();
+                m = appointment_date.minutes();
+                var mom = moment().hours(h).minutes(m);
+                excluded.push(mom);
+                console.log(appointment);
+                console.log(excluded);
+            }
+        });
+        this.setState({
+            date: date,
+            excluded: excluded,
+        });
+
+    }
+
+    isAvailable(date){
+        //console.log(date);
+        return date.isoWeekday()<6;
+    }
 
 	renderToolbar() {
 		return (
@@ -29,7 +73,7 @@ export default class DoctorDetails extends React.Component {
 	}
 
 	renderSpecialities() {
-		var specialitiesList = this.props.doctor.profile.specialities.map(speciality => <li key={speciality}><b>{speciality}</b></li>);
+		var specialitiesList = this.props.doctor.profile.specialities.split(",").map(speciality => <li key={speciality}><b>{speciality}</b></li>);
 		return (
 			<div>
 				Specialities: 
@@ -41,14 +85,21 @@ export default class DoctorDetails extends React.Component {
 	}
 
 	onPressBookDoctor() {
-		var appointment = {
-			'userId': Meteor.userId(),
-			'doctorId': this.props.doctor._id,
-			'createdAt': new Date(),
-		};
-		AppointmentsCollection.insert(appointment);
-		ONS.notification.toast('Appointment booked!', {timeout: 2000});
-		this.props.navigator.popPage();
+    	if(!Meteor.user().profile.isDoctor) {
+            var appointment = {
+                'userId': Meteor.userId(),
+                'doctorId': this.props.doctor._id,
+                'createdAt': new Date(),
+                'confirmed': 0,
+                'date': this.state.date.format("dddd, MMMM Do YYYY, h:mm:ss a"),
+            };
+            AppointmentsCollection.insert(appointment);
+            ONS.notification.toast('Appointment requested!', {timeout: 2000});
+            this.props.navigator.popPage();
+        }
+        else{
+            ons.notification.alert('Please register as a patient-user to book appointments!');
+		}
 	}
 
 	render() {
@@ -65,16 +116,23 @@ export default class DoctorDetails extends React.Component {
 						<h2 className="card__title">{doctor.profile.name}</h2>
 						<div className="card__content" style={{textAlign: 'left'}}>
 							{this.renderSpecialities()}
-							<p>
+                            Additional Information:
+                            <p>
 								{doctor.profile.additionalInfo}
-							</p>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-								tempor incididunt ut labore et dolore magna aliqua.
 							</p>
 							</div>
 					</Ons.Card>
-					<Ons.Button modifier="large" onClick={this.onPressBookDoctor.bind(this)}>Book Doctor</Ons.Button>
+                    Preferred Date:
+                    <DatePicker
+                        selected={this.state.date}
+                        onChange={this.handleChange}
+                        filterDate={this.isAvailable}
+                        placeholderText="Select a weekday"
+                        showTimeSelect
+                        excludeTimes={this.state.excluded}
+                        dateFormat="LLL"
+                        withPortal />
+                <Ons.Button modifier="large" onClick={this.onPressBookDoctor.bind(this)}>Request Doctor</Ons.Button>
 			</Ons.Page>
 		);	
 	}

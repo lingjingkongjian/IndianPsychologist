@@ -12,7 +12,7 @@ function doUserFixtures(){
                 'avatar': 'https://i.imgur.com/aybWVmc.png',
                 'age': 52,
                 'location': 'Mumbai',
-                'specialities': ['General Health', 'Depression', 'Feel Good Lessions'],
+                'specialities': 'General Health, Depression, Feel Good Lessions',
                 'additionalInfo': 'I am the best doctor ever...'
             },
             'status': {
@@ -28,7 +28,7 @@ function doUserFixtures(){
                 'avatar': 'https://i.imgur.com/8n9gXqY.jpg',
                 'age': 28,
                 'location': 'Mumbai',
-                'specialities': ['Brain Care', 'Mood Enhancer Therapy'],
+                'specialities': 'Brain Care, Mood Enhancer Therapy',
                 'additionalInfo': 'Your Brains are in good hands with me'
             },
             'status': {
@@ -44,7 +44,7 @@ function doUserFixtures(){
                 'avatar': 'https://i.imgur.com/8n9gXqY.jpg',
                 'age': 28,
                 'location': 'Mumbai',
-                'specialities': ['Brain Care', 'Mood Enhancer Therapy'],
+                'specialities': 'Brain Care, Mood Enhancer Therapy',
                 'additionalInfo': 'Your Brains are in good hands with me'
             },
             'status': {

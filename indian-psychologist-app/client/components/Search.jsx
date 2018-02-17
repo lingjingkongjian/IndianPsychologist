@@ -8,7 +8,6 @@ import * as Ons from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
-import WelcomeContainer from './Welcome.jsx';
 import DoctorDetails from './DoctorDetails.jsx';
 
 class Search extends React.Component {
@@ -17,22 +16,6 @@ class Search extends React.Component {
 		super(props);
 		this.state = {
 			'searchInput': ''
-		}
-	}
-
-	componentDidMount() {
-		// check if we have to show hello screen
-        that = this;
-        var myNavigator = document.querySelector('ons-navigator');
-
-        if(!Session.get('welcomeScreenShowed')){
-            //alert("opening welcome screen");
-			setTimeout(function(){
-				if(that.props.user) return;
-				Session.set({'welcomeScreenShowed': true});
-				that.props.navigator.pushPage({component: WelcomeContainer}, {animation: 'simpleslide'},
-                    {props: {navigator: myNavigator}});
-			}, 300)
 		}
 	}
 
@@ -65,8 +48,8 @@ class Search extends React.Component {
 	render() {
 		var that = this;
 		var doctorsList = this.props.doctors.filter(function(doctor) {
-			if(doctor.profile.name.indexOf(that.state.searchInput) > -1) return true;
-			if(doctor.profile.additionalInfo.indexOf(that.state.searchInput) > -1) return true;
+			if(doctor.profile.name.toLowerCase().indexOf(that.state.searchInput.toLowerCase()) > -1) return true;
+			if(doctor.profile.additionalInfo.toLowerCase().indexOf(that.state.searchInput.toLowerCase()) > -1) return true;
 			return false;
 		});
 
