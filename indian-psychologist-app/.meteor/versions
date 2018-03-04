@@ -26,6 +26,7 @@ callback-hook@1.0.10
 check@1.2.5
 coffeescript@1.0.17
 crosswalk@1.7.1
+cunneen:mailgun@1.0.0
 dburles:collection-helpers@1.1.0
 ddp@1.4.0
 ddp-client@2.2.0

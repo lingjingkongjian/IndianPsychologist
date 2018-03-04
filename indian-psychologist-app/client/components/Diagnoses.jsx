@@ -44,6 +44,7 @@ class Diagnoses extends React.Component {
         var reportsList = this.props.reports;
 
         reportsList = reportsList.map(report => {
+            console.log(report);
             return (
 				<Ons.ListItem key={report._id} tappable onClick={
 				    () => { report._id == this.state.activeReport ? this.setState({activeReport: ""}):

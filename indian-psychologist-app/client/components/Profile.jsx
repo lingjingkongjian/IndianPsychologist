@@ -9,6 +9,7 @@ import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
 import Welcome from './Welcome.jsx';
+import keyboardJS from 'keyboardjs';
 
 class Avatar extends React.Component {
 
@@ -52,13 +53,30 @@ class Profile extends React.Component {
             name: this.props.user.profile.name,
             age: this.props.user.profile.age,
             location: this.props.user.profile.location,
+            email: this.props.user.profile.email,
             isDoctor: this.props.user.profile.isDoctor,
             specialities: this.props.user.profile.specialities,
             additionalInfo: this.props.user.profile.additionalInfo,
-
+            showSwitchDoctor: false,
         };
-
+        this.switchDoc = this.switchDoc.bind(this);
         this.handleChange = this.handleChange.bind(this);
+
+    }
+
+    switchDoc(value){
+        this.setState({
+            showSwitchDoctor: value
+        });
+    }
+
+    componentDidMount() {
+        keyboardJS.bind('a + b', (e) => {
+            e.preventRepeat();
+            this.switchDoc(true);
+        }, (e) => {
+            this.switchDoc(false);
+        });
     }
 
     handleChange(event) {
@@ -87,11 +105,13 @@ class Profile extends React.Component {
                     "profile.name": this.state.name,
                     "profile.age": this.state.age,
                     "profile.location": this.state.location,
+                    "profile.email": this.state.email,
                     "profile.isDoctor": this.state.isDoctor,
                     "profile.specialities": this.state.specialities,
                     "profile.additionalInfo": this.state.additionalInfo,
                 }
             });
+        ONS.notification.toast('Profile updated!', {timeout: 2000});
     }
 
 	render() {
@@ -115,14 +135,24 @@ class Profile extends React.Component {
                             <td><input type="text" name="location" value={this.state.location} onChange={this.handleChange.bind()} /><br/></td>
                         </tr>
                         <tr>
-                            <td><label>is doctor</label></td>
-                            <td><input type="checkbox" name="isDoctor" checked={this.state.isDoctor} onChange={this.handleChange.bind()} /><br/></td>
+                            <td><label>Email</label></td>
+                            <td><input type="text" name="email" value={this.state.email} onChange={this.handleChange.bind()} /><br/></td>
                         </tr>
+                        {(() => {
+                            if (this.state.showSwitchDoctor) {
+                                return (
+                                    <tr>
+                                        <td><label>is doctor</label></td>
+                                        <td><input type="checkbox" name="isDoctor" checked={this.state.isDoctor} onChange={this.handleChange.bind()} /><br/></td>
+                                    </tr>
+                                )
+                            }
+                        })()}
                         {(() => {
                             if (this.state.isDoctor) {
                                 return (
                                     <tr>
-                                        <td><label>Specialties</label></td>
+                                        <td><label>Specialities</label></td>
                                         <td><input type="text" name="specialities" value={this.state.specialities} onChange={this.handleChange.bind()} /><br/></td>
                                     </tr>
                                     )

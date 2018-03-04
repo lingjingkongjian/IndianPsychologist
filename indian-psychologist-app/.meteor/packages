@@ -43,3 +43,6 @@ okland:camera-ui
 momentjs:moment
 ecmascript
 accounts-base
+cunneen:mailgun
+email
+aldeed:simple-schema

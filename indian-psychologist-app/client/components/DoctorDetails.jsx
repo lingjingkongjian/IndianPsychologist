@@ -12,20 +12,36 @@ export default class DoctorDetails extends React.Component {
 
     constructor(props) {
         super(props);
-        var date = moment().add(3, 'days');
+        var date = moment(); //.add(3, 'days');
         var minute = 30 * Math.round(date.minutes() / 30);
         date = date.minutes(minute);
         date = date.seconds(0);
         this.state = {
             date: date,
-            excluded: []
+            excluded: [],
+            disabled: true
         };
-
+        for(var i=0; i<6; i++){
+            this.state.excluded.push(moment().hours(i).minutes(0));
+            this.state.excluded.push(moment().hours(i).minutes(30));
+        }
+        for(var i=21; i<24; i++){
+            this.state.excluded.push(moment().hours(i).minutes(0));
+            this.state.excluded.push(moment().hours(i).minutes(30));
+        }
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(date) {
         var excluded = [];
+        for(var i=0; i<6; i++){
+            excluded.push(moment().hours(i).minutes(0));
+            excluded.push(moment().hours(i).minutes(30));
+        }
+        for(var i=21; i<24; i++){
+            excluded.push(moment().hours(i).minutes(0));
+            excluded.push(moment().hours(i).minutes(30));
+        }
         const appointments_list = AppointmentsCollection.find({ doctorId: this.props.doctor._id }).fetch();
         appointments_list.map(appointment => {
             var appointment_date = moment(appointment.date, "ddd, MMMM Do YYYY, HH:mm:ss A");
@@ -43,6 +59,7 @@ export default class DoctorDetails extends React.Component {
         this.setState({
             date: date,
             excluded: excluded,
+            disabled: false
         });
 
     }
@@ -85,21 +102,46 @@ export default class DoctorDetails extends React.Component {
 	}
 
 	onPressBookDoctor() {
-    	if(!Meteor.user().profile.isDoctor) {
-            var appointment = {
-                'userId': Meteor.userId(),
-                'doctorId': this.props.doctor._id,
-                'createdAt': new Date(),
-                'confirmed': 0,
-                'date': this.state.date.format("dddd, MMMM Do YYYY, h:mm:ss a"),
-            };
-            AppointmentsCollection.insert(appointment);
-            ONS.notification.toast('Appointment requested!', {timeout: 2000});
-            this.props.navigator.popPage();
+        if(this.state.disabled === false) {
+            let total = AppointmentsCollection.find({userId: Meteor.userId()}).count();
+            if(total <= 5) {
+                if (!Meteor.user().profile.isDoctor) {
+                    var appointment = {
+                        'userId': Meteor.userId(),
+                        'doctorId': this.props.doctor._id,
+                        'createdAt': new Date(),
+                        'confirmed': 0,
+                        'date': this.state.date.format("dddd, MMMM Do YYYY, h:mm:ss a"),
+                    };
+                    var appointment_id = AppointmentsCollection.insert(appointment);
+                    ONS.notification.toast('Appointment requested! - Please check your emails for further information', {timeout: 3000});
+                    this.props.navigator.popPage();
+
+                    // send email
+                    Meteor.call('sendMail', {
+                        status: 0, // unconfirmed
+                        userId: Meteor.userId(),
+                        doctorId: this.props.doctor._id,
+                        appointment_id: appointment_id
+                    }, (err, res) => {
+                        if (err) {
+                            alert(err);
+                        } else {
+                            // success!
+                        }
+                    });
+                }
+                else {
+                    ons.notification.alert('Please register as a patient-user to book appointments!');
+                }
+            }
+            else{
+                ons.notification.alert('You can only request a maximum of 5 appointments. Please contact customer service.');
+            }
         }
         else{
-            ons.notification.alert('Please register as a patient-user to book appointments!');
-		}
+            ons.notification.alert('Please choose a date');
+        }
 	}
 
 	render() {

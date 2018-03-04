@@ -12,22 +12,22 @@ import { Accounts } from 'meteor/std:accounts-ui';
 const divStyle = {
     marginLeft: "auto",
     marginRight: "auto",
-    width: "600px",
-}
+    maxWidth: "600px",
+};
 const divStyle_text = {
     float: "left",
     width: "350px",
     marginRight: "20px",
-}
+};
 const divStyle_login = {
     float: "left",
     width: "230px",
-}
+};
 const divStyle_img = {
     textAlign: "center",
     margin: "20px auto",
     display: "block",
-}
+};
 
 class Welcome extends React.Component {
 
@@ -69,6 +69,7 @@ export default WelcomeContainer = withTracker(props => {
                             'profile.avatar': 'https://i.imgur.com/8n9gXqY.jpg',
                             'profile.age': 28,
                             'profile.location': 'Mumbai',
+                            'profile.email': '',
                             'profile.specialities': 'Specialty 1, Specialty 2',
                             'profile.additionalInfo': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                         }
@@ -78,8 +79,9 @@ export default WelcomeContainer = withTracker(props => {
         onPostSignUpHook: () => {
             /* remove the login popup */ document.querySelector('ons-navigator').popPage();
             /* modify the created user account */
-            alert("updated profile");
-            Users.update({'_id': Meteor.userId()},
+            //alert("updated profile");
+            let id = Meteor.userId();
+            Users.update({'_id': id},
                 {$set:
                     {
                     'profile.status': "123",
@@ -88,12 +90,13 @@ export default WelcomeContainer = withTracker(props => {
                     'profile.avatar': 'https://i.imgur.com/8n9gXqY.jpg',
                     'profile.age': 28,
                     'profile.location': 'Mumbai',
-                    'profile.specialities': ['Specialty 1', 'Specialty 2'],
+                    'profile.email': Meteor.user().emails[0].address,
+                    'profile.specialities': 'Specialty 1, Specialty 2',
                     'profile.additionalInfo': 'Additional Information'
                     }
                 });
             },
-        onSignedOutHook: () => {alert("logged out")}
+        onSignedOutHook: () => {/*("logged out")*/}
     });
 
     return {
