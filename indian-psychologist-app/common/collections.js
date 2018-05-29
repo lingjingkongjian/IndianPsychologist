@@ -21,3 +21,5 @@ ReportsCollection = new Mongo.Collection('reports', {
         return doc;
     }
 });
+
+PhenotypingCollection = new Mongo.Collection('phenotyping', {});

@@ -1,0 +1,14 @@
+input{
+    border: solid thin grey;
+}
+
+.camera-popup .photo-preview {
+    width: calc(100% - 5px);
+    /* width: 320px; */
+    /* height: 200px; */
+    margin-bottom: 10px;
+}
+
+.camera-popup #video {
+    margin-bottom: 10px;
+}

@@ -84,8 +84,8 @@ export default WelcomeContainer = withTracker(props => {
             Users.update({'_id': id},
                 {$set:
                     {
-                    'profile.status': "123",
-                    'profile.name': 'Peter',
+                    'profile.status': "",
+                    'profile.name': '',
                     'profile.isDoctor': false,
                     'profile.avatar': 'https://i.imgur.com/8n9gXqY.jpg',
                     'profile.age': 28,

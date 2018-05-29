@@ -143,7 +143,7 @@ class Appointments extends React.Component {
 			<Ons.Page
 				renderModal={() => (
 					<Ons.Modal isOpen={this.state.isOpen}>
-						<iframe id="videochat_iframe" style={divStyle} src={this.state.videochat_src} scrolling="no"></iframe>
+						<iframe allow="geolocation *; microphone *; camera *; midi *; encrypted-media *" id="videochat_iframe" style={divStyle} src={this.state.videochat_src} scrolling="no"/>
 						<Ons.Button style={divStyle2} onClick={this.onClose.bind(this)}>
                             Close
                         </Ons.Button>

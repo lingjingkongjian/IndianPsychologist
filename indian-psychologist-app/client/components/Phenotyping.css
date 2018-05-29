@@ -1,0 +1,24 @@
+.pheno_box span{
+    padding: 10px;
+    vertical-align: super;
+}
+
+.pheno_box{
+    width: calc(100% - 40px);
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.pheno_box_medication{
+    width: calc(100% - 40px);
+    margin: auto;
+    margin-top: 20px;
+}
+
+.pheno_box_medication td{
+    padding-left: 5px;
+}
+
+input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus{
+    outline: none;
+}

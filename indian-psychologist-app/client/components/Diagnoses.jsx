@@ -12,14 +12,14 @@ const divStyle = {
     overflow:"hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
-}
+};
 
-const expandedStyle = {whiteSpace: "pre-line"}
+const expandedStyle = {whiteSpace: "pre-line"};
 
 const textarea_style = {
     width: "100%",
     marginBottom: "20px",
-}
+};
 
 class Diagnoses extends React.Component {
 

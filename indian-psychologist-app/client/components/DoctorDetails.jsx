@@ -1,7 +1,55 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+// from react components
+import 'rc-calendar/assets/index.css';
+import enUS from 'rc-calendar/lib/locale/en_US';
+import 'rc-time-picker/assets/index.css';
+import TimePickerPanel from 'rc-time-picker/lib/Panel';
+import PropTypes from 'prop-types';
+import Calendar from 'rc-calendar';
+import DatePicker from 'rc-calendar/lib/Picker';
+
+const timePickerElement = <TimePickerPanel
+                            defaultValue={moment('00:00:00', 'HH:mm:ss')}
+                            showSecond={false}
+                            minuteStep={15}/>;
+
+function onStandaloneSelect(value) {
+    console.log('onStandaloneSelect');
+    console.log(value && value.format("HH:mm:ss"));
+}
+function disabledTime(date) {
+    console.log('disabledTime', date);
+    if (date && (date.date() === 15)) {
+        return {
+            disabledHours() {
+                return [3, 4];
+            },
+        };
+    }
+    return {
+        disabledHours() {
+            return [1, 2];
+        },
+    };
+}
+function disabledDate(current) {
+    if (!current) {
+        // allow empty select
+        return false;
+    }
+    const date = moment();
+    date.hour(0);
+    date.minute(0);
+    date.second(0);
+    return current.valueOf() < date.valueOf();  // can not select days before today
+}
+function getFormat(time) {
+    return time ? format : 'YYYY-MM-DD';
+}
+const format = 'YYYY-MM-DD HH:mm:ss';
+
 
 import ons from 'onsenui';
 import * as Ons from 'react-onsenui';
@@ -19,7 +67,7 @@ export default class DoctorDetails extends React.Component {
         this.state = {
             date: date,
             excluded: [],
-            disabled: true
+            disabled_submit: true
         };
         for(var i=0; i<6; i++){
             this.state.excluded.push(moment().hours(i).minutes(0));
@@ -33,6 +81,7 @@ export default class DoctorDetails extends React.Component {
     }
 
     handleChange(date) {
+        console.log("handling change");
         var excluded = [];
         for(var i=0; i<6; i++){
             excluded.push(moment().hours(i).minutes(0));
@@ -59,7 +108,7 @@ export default class DoctorDetails extends React.Component {
         this.setState({
             date: date,
             excluded: excluded,
-            disabled: false
+            disabled_submit: false
         });
 
     }
@@ -102,7 +151,23 @@ export default class DoctorDetails extends React.Component {
 	}
 
 	onPressBookDoctor() {
-        if(this.state.disabled === false) {
+        console.log(Meteor.user());
+        var user_profile = Meteor.user().profile;
+        var hasPhone = user_profile.hasOwnProperty('phone_number') && user_profile.phone_number != '';
+        var hasName = user_profile.hasOwnProperty('name') && user_profile.name != '';
+        var hasEmail = user_profile.hasOwnProperty('email') && user_profile.email != '';
+        if(hasPhone && hasName && hasEmail){
+            console.log('Name and phonenumber and email are in profile');
+        }
+        else{
+            var notification = 'Please complete your profile first! ';
+            !hasPhone ? notification += 'Your phone number is missing. ' : '';
+            !hasName ? notification += 'Your name is missing. ' : '';
+            !hasEmail ? notification += 'Your email is missing. ' : '';
+            ons.notification.alert(notification);
+        }
+        return;
+        if(this.state.disabled_submit === false) {
             let total = AppointmentsCollection.find({userId: Meteor.userId()}).count();
             if(total <= 5) {
                 if (!Meteor.user().profile.isDoctor) {
@@ -114,7 +179,7 @@ export default class DoctorDetails extends React.Component {
                         'date': this.state.date.format("dddd, MMMM Do YYYY, h:mm:ss a"),
                     };
                     var appointment_id = AppointmentsCollection.insert(appointment);
-                    ONS.notification.toast('Appointment requested! - Please check your emails for further information', {timeout: 3000});
+                    ONS.notification.toast('Appointment requested! Check your email!', {timeout: 6000});
                     this.props.navigator.popPage();
 
                     // send email
@@ -165,7 +230,22 @@ export default class DoctorDetails extends React.Component {
 							</div>
 					</Ons.Card>
                     Preferred Date:
-                    <DatePicker
+                {/*<Calendar
+                        showWeekNumber={true}
+                        locale={enUS}
+                        disabledTime={disabledTime}
+                        disabledDate={disabledDate}
+                        showToday
+                        showOk={true}
+                        timePicker={timePickerElement}
+                        onChange={this.handleChange}
+                        onSelect={onStandaloneSelect}
+                        showDateInput={false}
+                    />*/}
+                    <div style={{ width: 300 }}>
+                        <CalendarWrapper defaultValue={moment(this.state.date)} handleChange={this.handleChange}/>
+                    </div>
+                    {/*<DatePicker
                         selected={this.state.date}
                         onChange={this.handleChange}
                         filterDate={this.isAvailable}
@@ -173,10 +253,91 @@ export default class DoctorDetails extends React.Component {
                         showTimeSelect
                         excludeTimes={this.state.excluded}
                         dateFormat="LLL"
-                        withPortal />
+                        withPortal />*/}
                 <Ons.Button modifier="large" onClick={this.onPressBookDoctor.bind(this)}>Request Doctor</Ons.Button>
 			</Ons.Page>
 		);	
 	}
 }
 
+
+
+class CalendarWrapper extends React.Component {
+    static propTypes = {
+        defaultValue: PropTypes.object,
+        defaultCalendarValue: PropTypes.object,
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showTime: true,
+            showDateInput: true,
+            disabled: false,
+            value: props.defaultValue,
+        };
+    }
+
+    onChange = (value) => {
+        console.log('DatePicker change: ', (value));
+        this.setState({
+            value,
+        });
+    }
+
+    render() {
+        const state = this.state;
+        const calendar = (<Calendar
+            showWeekNumber={true}
+            locale={enUS}
+            defaultValue={this.state.date}
+            disabledTime={disabledTime}
+            disabledDate={disabledDate}
+            showToday={false}
+            showOk={true}
+            timePicker={timePickerElement}
+            onChange={this.props.handleChange}
+            onSelect={onStandaloneSelect}
+            showDateInput={false}
+        />);
+        return (<div style={{ width: 400, margin: 20 }}>
+            <div style={{ marginBottom: 10 }}>
+            </div>
+            <div style={{
+                boxSizing: 'border-box',
+                position: 'relative',
+                display: 'block',
+                lineHeight: 1.5,
+                marginBottom: 22,
+            }}
+            >
+                <DatePicker
+                    animation="slide-up"
+                    disabled={state.disabled}
+                    calendar={calendar}
+                    value={state.value}
+                    onChange={this.onChange}
+                >
+                        {
+                            ({ value }) => {
+                                return (
+                                    <span tabIndex="0">
+                    <input
+                        placeholder="please select"
+                        style={{ width: 250 }}
+                        disabled={state.disabled}
+                        readOnly
+                        tabIndex="-1"
+                        className="ant-calendar-picker-input ant-input"
+                        value={value && value.format(getFormat(state.showTime)) || ''}
+                    />
+                    </span>
+                                );
+                        }
+                    }
+                </DatePicker>
+            </div>
+        </div>);
+    }
+}

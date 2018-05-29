@@ -11,7 +11,9 @@ import SearchContainer from './Search.jsx';
 import ProfileContainer from './Profile.jsx';
 import AppointmentsContainer from './Appointments.jsx';
 import DiagnosesContainer from './Diagnoses.jsx';
-import WriteSummary from './WriteSummary';
+import PhenotypingContainer from './Phenotyping.jsx';
+import SettingsContainer from './Settings.jsx';
+
 
 export class SideMenu extends React.Component {
 	constructor(props) {
@@ -80,6 +82,10 @@ export class SideMenu extends React.Component {
 				title: 'Search',
 				component: <SearchContainer navigator={this.props.navigator}/>
 			},
+            {
+                title: 'My day',
+                component: <PhenotypingContainer navigator={this.props.navigator}/>
+            },
 			{
 				title: 'Appointments',
 				component: <AppointmentsContainer navigator={this.props.navigator}/>
@@ -91,7 +97,10 @@ export class SideMenu extends React.Component {
 			{
 				title: 'Profile',
 				component: <ProfileContainer navigator={this.props.navigator}/>
-			},
+			},{
+                title: 'Settings',
+                component: <SettingsContainer navigator={this.props.navigator}/>
+            },
 		];
 
 		var sideMenuListItems = sideMenuEntries.map(entry => { return (

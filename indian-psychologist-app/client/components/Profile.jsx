@@ -11,11 +11,13 @@ import 'onsenui/css/onsen-css-components.css';
 import Welcome from './Welcome.jsx';
 import keyboardJS from 'keyboardjs';
 
+import './Profile.css';
+
 class Avatar extends React.Component {
 
   onEditAvatar() {
     var that = this;
-    MeteorCameraUI.getPicture({width: 400, height: 400, quality:100}, function(error, data) {
+    MeteorCameraUI.getPicture({/*width: 400, height: 400,*/ quality:100}, function(error, data) {
       if(error) console.log(error);
       var options = {
         apiKey: 'a6e3380b07014ef',
@@ -34,7 +36,7 @@ class Avatar extends React.Component {
     if(!this.props.user.profile.avatar) {
       var avatar = <Ons.Icon size={200} icon="ion-person" />;
     } else {
-      var avatar = <img style={{maxHeight: 150}} src={this.props.user.profile.avatar} alt=""/>
+      var avatar = <img style={{/*maxHeight: 150*/ height: "150px"}} src={this.props.user.profile.avatar} alt=""/>
     }
     return (
       <div style={{textAlign: 'center'}}>
@@ -54,6 +56,7 @@ class Profile extends React.Component {
             age: this.props.user.profile.age,
             location: this.props.user.profile.location,
             email: this.props.user.profile.email,
+            phone_number: this.props.user.profile.phone_number,
             isDoctor: this.props.user.profile.isDoctor,
             specialities: this.props.user.profile.specialities,
             additionalInfo: this.props.user.profile.additionalInfo,
@@ -106,6 +109,7 @@ class Profile extends React.Component {
                     "profile.age": this.state.age,
                     "profile.location": this.state.location,
                     "profile.email": this.state.email,
+                    "profile.phone_number": this.state.phone_number,
                     "profile.isDoctor": this.state.isDoctor,
                     "profile.specialities": this.state.specialities,
                     "profile.additionalInfo": this.state.additionalInfo,
@@ -131,23 +135,17 @@ class Profile extends React.Component {
                             <td><input type="text" name="age" value={this.state.age} onChange={this.handleChange.bind()} /><br/></td>
                         </tr>
                         <tr>
-                            <td><label>Location</label></td>
+                            <td><label>City</label></td>
                             <td><input type="text" name="location" value={this.state.location} onChange={this.handleChange.bind()} /><br/></td>
                         </tr>
                         <tr>
                             <td><label>Email</label></td>
                             <td><input type="text" name="email" value={this.state.email} onChange={this.handleChange.bind()} /><br/></td>
                         </tr>
-                        {(() => {
-                            if (this.state.showSwitchDoctor) {
-                                return (
-                                    <tr>
-                                        <td><label>is doctor</label></td>
-                                        <td><input type="checkbox" name="isDoctor" checked={this.state.isDoctor} onChange={this.handleChange.bind()} /><br/></td>
-                                    </tr>
-                                )
-                            }
-                        })()}
+                        <tr>
+                            <td><label>Phone number</label></td>
+                            <td><input type="text" name="phone_number" value={this.state.phone_number} onChange={this.handleChange.bind()} /><br/></td>
+                        </tr>
                         {(() => {
                             if (this.state.isDoctor) {
                                 return (
@@ -172,7 +170,6 @@ class Profile extends React.Component {
                 </table>
             </form><br/>
             <Ons.Button style={{margin: 10}} onClick={this.saveProfile.bind(this)}> Save </Ons.Button><br/>
-            <Ons.Button style={{margin: 10}} onClick={this.logout.bind(this)}> Logout </Ons.Button>
         </Ons.Card>
       </Ons.Page>
 		);
