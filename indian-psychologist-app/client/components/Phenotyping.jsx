@@ -28,8 +28,14 @@ class Phenotyping extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activePhenotype: ''
-        }
+            activePhenotype: '',
+            medication_morning: (typeof (props.phenotype_today[0]['medication_morning']) == 'undefined') ?
+                props.phenotypes.medication_morning : false,
+            medication_afternoon: (typeof (props.phenotype_today[0]['medication_afternoon']) == 'undefined') ?
+                props.phenotypes.medication_afternoon : false,
+            medication_dinner: (typeof (props.phenotype_today[0]['medication_dinner']) == 'undefined') ?
+                props.phenotypes.medication_dinner : false,
+        };
 
         this.handleChange = this.handleChange.bind(this);
     }
@@ -183,11 +189,14 @@ class Phenotyping extends React.Component {
                              console.log(property);
                              if (phenotype.hasOwnProperty(property)) {
                                  // do stuff
-                                 if (property != 'userId' && property != 'date' && property != '_id') {
-                                     properties.push(<div>{property}: {phenotype[property].toString()}</div>);
+                                 var isUndefined = typeof (phenotype[property]) == 'undefined';
+                                 if (property != 'userId' && property != 'date' && property != '_id' && !isUndefined) {
+                                     console.log(phenotype[property]);
+                                     properties.push(<div key={property}>{property}: {phenotype[property].toString()}</div>);
                                  }
                              }
                          }
+                         properties.sort();
                         console.log(phenotype);
                         return (
                             <Ons.ListItem key={phenotype._id} tappable onClick={
@@ -212,9 +221,11 @@ class Phenotyping extends React.Component {
 export default PhenotypingContainer = withTracker(props => {
     var userId = Meteor.user()._id;
     var phenotypes = PhenotypingCollection.find({'userId': userId}).fetch();
+    var phenotype_today = PhenotypingCollection.find({'userId': userId, 'date': moment().format("YYYY-MM-DD")}).fetch();
     console.log(phenotypes);
     return {
         phenotypes: phenotypes,
+        phenotype_today: phenotype_today,
         user: Meteor.user()
     };
 })(Phenotyping);

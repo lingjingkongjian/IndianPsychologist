@@ -160,13 +160,15 @@ export default class DoctorDetails extends React.Component {
             console.log('Name and phonenumber and email are in profile');
         }
         else{
+            //message if crude validation failed
             var notification = 'Please complete your profile first! ';
             !hasPhone ? notification += 'Your phone number is missing. ' : '';
             !hasName ? notification += 'Your name is missing. ' : '';
             !hasEmail ? notification += 'Your email is missing. ' : '';
             ons.notification.alert(notification);
+            return;
         }
-        return;
+
         if(this.state.disabled_submit === false) {
             let total = AppointmentsCollection.find({userId: Meteor.userId()}).count();
             if(total <= 5) {
@@ -275,7 +277,7 @@ class CalendarWrapper extends React.Component {
             showTime: true,
             showDateInput: true,
             disabled: false,
-            value: props.defaultValue,
+            value: '',
         };
     }
 
@@ -290,6 +292,7 @@ class CalendarWrapper extends React.Component {
         const state = this.state;
         const calendar = (<Calendar
             showWeekNumber={true}
+            placeholder={'please input'}
             locale={enUS}
             defaultValue={this.state.date}
             disabledTime={disabledTime}
@@ -319,22 +322,22 @@ class CalendarWrapper extends React.Component {
                     value={state.value}
                     onChange={this.onChange}
                 >
-                        {
-                            ({ value }) => {
-                                return (
-                                    <span tabIndex="0">
-                    <input
-                        placeholder="please select"
-                        style={{ width: 250 }}
-                        disabled={state.disabled}
-                        readOnly
-                        tabIndex="-1"
-                        className="ant-calendar-picker-input ant-input"
-                        value={value && value.format(getFormat(state.showTime)) || ''}
-                    />
-                    </span>
+                    {
+                        ({ value }) => {
+                            return (
+                                <span tabIndex="0">
+                                    <input
+                                        placeholder="please select"
+                                        style={{ width: 250 }}
+                                        disabled={state.disabled}
+                                        readOnly
+                                        tabIndex="-1"
+                                        className="ant-calendar-picker-input ant-input"
+                                        value={value && value.format(getFormat(state.showTime)) || ''}
+                                    />
+                                </span>
                                 );
-                        }
+                            }
                     }
                 </DatePicker>
             </div>
