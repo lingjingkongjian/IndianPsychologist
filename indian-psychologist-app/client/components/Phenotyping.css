@@ -22,3 +22,7 @@
 input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus{
     outline: none;
 }
+
+input[type="checkbox"]{
+    margin-left: 0px !important;
+}

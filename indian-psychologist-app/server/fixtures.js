@@ -3,12 +3,13 @@
 function doUserFixtures(){
     console.log('doing user fixtures');
     var users = [
+        //deactivated for production
         {
             'email': 'bertha@doctor.com',
-            'password': 'bertha',
+            'password': 'bertha123',
             'profile': {
                 'name': 'Bertha',
-                'isDoctor': true,
+                'isDoctor': false,
                 'avatar': 'https://i.imgur.com/aybWVmc.png',
                 'age': 52,
                 'location': 'Mumbai',
@@ -24,23 +25,7 @@ function doUserFixtures(){
             'password': 'wilhelm',
             'profile': {
                 'name': 'Wilhelm',
-                'isDoctor': true,
-                'avatar': 'https://i.imgur.com/8n9gXqY.jpg',
-                'age': 28,
-                'location': 'Mumbai',
-                'specialities': 'Brain Care, Mood Enhancer Therapy',
-                'additionalInfo': 'Your Brains are in good hands with me'
-            },
-            'status': {
-                'online': false,
-            }
-        },
-        {
-            'email': 'wilhelm@doctor.com',
-            'password': 'peter',
-            'profile': {
-                'name': 'Peter',
-                'isDoctor': true,
+                'isDoctor': false,
                 'avatar': 'https://i.imgur.com/8n9gXqY.jpg',
                 'age': 28,
                 'location': 'Mumbai',

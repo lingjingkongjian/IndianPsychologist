@@ -205,6 +205,13 @@
         <item url="file://$USER_HOME$/.meteor/packages/promise/0.10.0/web.browser/promise-tests.js" />
         <item url="file://$USER_HOME$/.meteor/packages/promise/0.10.0/web.browser/server.js" />
         <item url="file://$USER_HOME$/.meteor/packages/raix_eventemitter/0.1.3/web.browser/packages/raix_eventemitter.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/raix_eventstate/0.0.4/web.browser/packages/raix_eventstate.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/client/browser.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/client/client.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/client/cordova.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/common/main.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/common/notifications.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/plugin/push.configuration.js" />
         <item url="file://$USER_HOME$/.meteor/packages/random/1.0.10/web.browser/deprecated.js" />
         <item url="file://$USER_HOME$/.meteor/packages/random/1.0.10/web.browser/random.js" />
         <item url="file://$USER_HOME$/.meteor/packages/random/1.0.10/web.browser/random_tests.js" />
@@ -525,6 +532,13 @@
       <root url="file://$USER_HOME$/.meteor/packages/promise/0.10.0/web.browser/promise-tests.js" />
       <root url="file://$USER_HOME$/.meteor/packages/promise/0.10.0/web.browser/server.js" />
       <root url="file://$USER_HOME$/.meteor/packages/raix_eventemitter/0.1.3/web.browser/packages/raix_eventemitter.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/raix_eventstate/0.0.4/web.browser/packages/raix_eventstate.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/client/browser.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/client/client.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/client/cordova.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/common/main.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/lib/common/notifications.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/raix_push/3.3.0/web.browser/plugin/push.configuration.js" />
       <root url="file://$USER_HOME$/.meteor/packages/random/1.0.10/web.browser/deprecated.js" />
       <root url="file://$USER_HOME$/.meteor/packages/random/1.0.10/web.browser/random.js" />
       <root url="file://$USER_HOME$/.meteor/packages/random/1.0.10/web.browser/random_tests.js" />

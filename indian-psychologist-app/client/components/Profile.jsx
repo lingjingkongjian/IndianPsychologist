@@ -17,7 +17,9 @@ class Avatar extends React.Component {
 
   onEditAvatar() {
     var that = this;
-    MeteorCameraUI.getPicture({/*width: 400, height: 400,*/ quality:100}, function(error, data) {
+    MeteorCameraUI.getPicture({/*width: 400, height: 400,*/
+        quality:100,
+        destinationType: Camera.DestinationType.FILE_URI }, function(error, data) {
       if(error) console.log(error);
       var options = {
         apiKey: 'a6e3380b07014ef',

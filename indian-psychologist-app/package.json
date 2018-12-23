@@ -5,13 +5,14 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "@babel/runtime": "^7.2.0",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
     "bcrypt-nodejs": "0.0.3",
     "classnames": "^2.2.5",
     "common": "^0.2.5",
     "file-system": "^2.2.2",
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.3",
     "https": "^1.0.0",
     "immutable": "^3.8.2",
     "indexof": "0.0.1",

@@ -13,7 +13,7 @@ import AppointmentsContainer from './Appointments.jsx';
 import DiagnosesContainer from './Diagnoses.jsx';
 import PhenotypingContainer from './Phenotyping.jsx';
 import SettingsContainer from './Settings.jsx';
-
+import WelcomeContainer from './Welcome.jsx';
 
 export class SideMenu extends React.Component {
 	constructor(props) {
@@ -170,6 +170,6 @@ export class SideMenu extends React.Component {
 
 export default SideMenuContainer = withTracker(props => {
     return {
-        user: Meteor.user()
+        user: Meteor.user() //null if not logged in, otherwise user id
     };
 })(SideMenu);

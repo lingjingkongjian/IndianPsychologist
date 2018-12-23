@@ -47,7 +47,8 @@ class Welcome extends React.Component {
                         <p>Our list of dedicated Outreach Foundation Psychologists and top external psychologists have been carefully vetted for experience. Simply register, browse for psychologists, book your preferred day, receive a confirmation and begin chatting.</p>
                     </div>
                     <div style={divStyle_login}>
-                        <Accounts.ui.LoginForm />
+                    hi
+                        {<Accounts.ui.LoginForm />}
                     </div>
                 </div>
 			</Ons.Page>

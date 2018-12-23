@@ -27,13 +27,14 @@ class Phenotyping extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             activePhenotype: '',
-            medication_morning: (typeof (props.phenotype_today[0]['medication_morning']) == 'undefined') ?
+            medication_morning: props.phenotype_today[0] && (typeof (props.phenotype_today[0]['medication_morning']) == 'undefined') ?
                 props.phenotypes.medication_morning : false,
-            medication_afternoon: (typeof (props.phenotype_today[0]['medication_afternoon']) == 'undefined') ?
+            medication_afternoon: props.phenotype_today[0] && (typeof (props.phenotype_today[0]['medication_afternoon']) == 'undefined') ?
                 props.phenotypes.medication_afternoon : false,
-            medication_dinner: (typeof (props.phenotype_today[0]['medication_dinner']) == 'undefined') ?
+            medication_dinner: props.phenotype_today[0] && (typeof (props.phenotype_today[0]['medication_dinner']) == 'undefined') ?
                 props.phenotypes.medication_dinner : false,
         };
 
@@ -41,7 +42,7 @@ class Phenotyping extends React.Component {
     }
 
     savePhenotype() {
-        update_obj = {
+        var update_obj = {
             //"date": moment().format("YYYY-MM-DD")
             "mood": this.state.mood,
             "physical_activity": this.state.physical_activity,
@@ -184,7 +185,7 @@ class Phenotyping extends React.Component {
                 <div style={{padding: "10px"}}>Previous days</div>
                 <Ons.List style={{marginBottom: "50px"}}>
                      {this.props.phenotypes.map(phenotype => {
-                         properties = [];
+                         var properties = [];
                          for (var property in phenotype) {
                              console.log(property);
                              if (phenotype.hasOwnProperty(property)) {
@@ -197,7 +198,7 @@ class Phenotyping extends React.Component {
                              }
                          }
                          properties.sort();
-                        console.log(phenotype);
+                         // console.log(phenotype);
                         return (
                             <Ons.ListItem key={phenotype._id} tappable onClick={
                                 () => { phenotype._id == this.state.activePhenotype ? this.setState({activePhenotype: ""}):
