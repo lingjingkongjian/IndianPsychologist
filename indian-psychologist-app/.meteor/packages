@@ -24,8 +24,6 @@ random@1.1.0
 session@1.2.0
 simple:imgur
 
-accounts-password@1.5.1
-accounts-facebook@1.3.2
 service-configuration@1.0.11
 mizzao:user-status
 dburles:collection-helpers
@@ -38,11 +36,13 @@ twbs:bootstrap
 okland:camera-ui
 momentjs:moment
 ecmascript@0.12.3
-accounts-base@1.4.3
 cunneen:mailgun
 email@1.2.3
 aldeed:simple-schema
 raix:push
 underscore
-accounts-ui
+accounts-base
+accounts-password
 std:accounts-ui
+accounts-facebook
+std:accounts-bootstrap
