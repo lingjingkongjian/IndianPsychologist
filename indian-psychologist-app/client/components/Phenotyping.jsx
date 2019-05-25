@@ -4,9 +4,12 @@ import React from 'react';
 
 import ons from 'onsenui';
 import * as Ons from 'react-onsenui';
-import 'onsenui/css/onsenui.css';
-import 'onsenui/css/onsen-css-components.css';
+//import 'onsenui/css/onsenui.css';
+//import 'onsenui/css/onsen-css-components.css';
 import './Phenotyping.css';
+
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 const divStyle = {
     width: "300px",
@@ -22,6 +25,73 @@ const textarea_style = {
     marginBottom: "20px",
 }
 
+const marks0 = {
+    0: <strong>0</strong>,
+    1: "1",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
+    10: <strong>10</strong>
+  };
+
+const marks1 = {
+    0: <strong>0</strong>,
+    1: "1",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
+    10: "10",
+    11: "11",
+    12: "12",
+    13: "13",
+    14: "14",
+    15: "15",
+    16: "16",
+    17: "17",
+    18: "18",
+    19: "19",
+    20: <strong>20</strong>
+  };
+
+const marks2 = {
+    0: <strong>0</strong>,
+    1: "1",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
+    10: <strong>10</strong>
+  };
+
+const marks3 = {
+    0: <strong>0</strong>,
+    1: "1",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
+    10: "10",
+    11: "11",
+    12: <strong>12</strong>
+  };
 
 class Phenotyping extends React.Component {
 
@@ -78,6 +148,7 @@ class Phenotyping extends React.Component {
     }
 
     handleChange(event) {
+        console.log(event);
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.type === 'checkbox' ? target.id : target.name;
@@ -87,61 +158,77 @@ class Phenotyping extends React.Component {
         });
     }
 
+    handleSliderChange(value, name, event) {
+        console.log(event);
+
+        this.setState({
+            [name]: value
+        });
+    }
+
     render() {
+
         return (
             <Ons.Page>
                 <h3 style={{padding:"15px"}}>{moment().format("dddd D MMMM YYYY")}</h3>
                 <div className='pheno_box'>
                     <div>Daily Mood</div>
-                    <span>1</span>
-                        <Ons.Range
-                            onChange={this.handleChange}
-                            value={this.state.mood}
-                            name={'mood'}
-                            min={1}
+                    <div style={{padding: "30px"}}>
+                        <Slider
+                            min={0}
                             max={10}
+                            marks={marks0}
+                            className={'mood'}
+                            step={null} // or null
+                            onChange={(value) => this.handleSliderChange(value, 'mood')}
+                            value={this.state.mood}
                         />
-                    <span>10</span>
+                    </div>
                     <div>Value: {this.state.mood}</div>
                 </div>
-                <div className='pheno_box'>
+                <div className='pheno_box' onChange={(e) => e.stopPropgation()}>
                     <div>Physical Activity (0 to 20+ hours)</div>
-                    <span>0</span>
-                    <Ons.Range
-                        onChange={this.handleChange}
-                        value={this.state.physical_activity}
-                        name={'physical_activity'}
-                        min={0}
-                        max={20}
-                    />
-                    <span>20+</span>
+                    <div style={{padding: "30px"}}>
+                        <Slider
+                            min={0}
+                            max={20}
+                            marks={marks1}
+                            className={'physical_activity'}
+                            step={null} // or null
+                            onChange={(value) => this.handleSliderChange(value, 'physical_activity')}
+                            value={this.state.physical_activity}
+                        />
+                    </div>
                     <div>Value: {this.state.physical_activity} hours</div>
                 </div>
                 <div className='pheno_box'>
                     <div>Motivation</div>
-                    <span>1</span>
-                    <Ons.Range
-                        onChange={this.handleChange}
-                        value={this.state.motivation}
-                        name={'motivation'}
-                        min={1}
-                        max={10}
-                    />
-                    <span>10</span>
+                    <div style={{padding: "30px"}}>
+                        <Slider
+                            min={0}
+                            max={10}
+                            marks={marks2}
+                            className={'motivation'}
+                            step={null} // or null
+                            onChange={(value) => this.handleSliderChange(value, 'motivation')}
+                            value={this.state.motivation}
+                        />
+                    </div>
                     <div>Value: {this.state.motivation}</div>
                 </div>
                 <div className='pheno_box'>
                     <div>Sleep (0 to 12+ hours)</div>
-                    <span>1</span>
-                    <Ons.Range
-                        material
-                        onChange={this.handleChange}
-                        value={this.state.sleep}
-                        name={'sleep'}
-                        min={0}
-                        max={12}
-                    />
-                    <span>12+</span>
+                    <div style={{padding: "30px"}}>
+                        <Slider
+                            min={0}
+                            max={12}
+                            marks={marks3}
+                            className={'sleep'}
+                            step={null} // or null
+                            onChange={(value) => this.handleSliderChange(value, 'sleep')}
+                            value={this.state.sleep}
+                        />
+                    </div>
                     <div>Value: {this.state.sleep} hours</div>
                 </div>
                 <div className='pheno_box_medication'>

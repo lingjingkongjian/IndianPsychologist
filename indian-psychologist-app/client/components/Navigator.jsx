@@ -39,7 +39,7 @@ export default class Navigator extends React.Component {
 
   render() {
     return (
-      <Ons.Navigator swipeable
+      <Ons.Navigator
         initialRoute={{component: SideMenuContainer}}
         renderPage={this.renderPage.bind(this)}
       />
