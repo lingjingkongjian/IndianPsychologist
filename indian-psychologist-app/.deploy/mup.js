@@ -1,20 +1,17 @@
 /**
  * Created by jonathanlehner on 01.12.17.
  */
+const one = require('../server.json')
+const settings = require('../settings.json')
+
 module.exports = {
     servers: {
-        one: {
-            host: '51.255.38.227',
-            username: 'root',
-            // pem: './path/to/pem'
-            password: 'NMGeOJP1'
-            // or neither for authenticate from ssh-agent
-        }
+        one: one
     },
 
     meteor: {
         // TODO: change app name and path
-        name: 'indiandoctor',
+        name: 'lp-builder',
         path: '../',
 
         servers: {
@@ -29,9 +26,14 @@ module.exports = {
         env: {
             // TODO: Change to your app's url
             // If you are using ssl, it needs to start with https://
-            ROOT_URL: 'https://shopwarp.com',
-            MONGO_URL: 'mongodb://localhost/meteor',
-            PORT: 3003,  /// sets machine port i.e. what is exposed outside of docker
+            ROOT_URL: 'http://vps662302.ovh.net:3003/',
+            MONGO_URL: 'mongodb://mongodb/lp-builder',
+            PORT: settings.port, /// sets machine port i.e. what is exposed outside of docker
+
+            // for mongo express - https://github.com/mongo-express/mongo-express
+            //alternatively: ME_CONFIG_MONGODB_URL: 'mongodb://mongodb/flexcar',
+            ME_CONFIG_MONGODB_SERVER: 'mongodb',
+            ME_CONFIG_MONGODB_PORT: 27017, // the default value
         },
 
         docker: {
@@ -53,7 +55,7 @@ module.exports = {
         // Add 30 seconds if the server has 512mb of ram
         // And 30 more if you have binary npm dependencies.
         deployCheckWaitTime: 60,
-        deployCheckPort: 3003,
+        deployCheckPort: settings.port,
 
         // Show progress bar while uploading bundle to server
         // You might need to disable it on CI servers
